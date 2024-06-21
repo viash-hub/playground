@@ -1,0 +1,49 @@
+name: mapping_and_qc
+description: Run STAR and QC
+argument_groups:
+  - name: Input arguments
+    arguments:
+      - name: --input
+        type: file
+        required: true
+      - name: --reference
+        type: file
+        required: false
+  - name: Output arguments
+    arguments:
+      - name: --mapping_output
+        type: file
+        direction: output
+        required: true
+      - name: --qc_output
+        type: file
+        required: true
+        direction: output
+
+resources:
+  - type: nextflow_script
+    path: main.nf
+    entrypoint: run_wf
+
+# test_resources:
+#   - type: nextflow_script
+#     path: test.nf
+#     entrypoint: test_wf
+
+dependencies:
+  - name: star/star_align_reads
+    repository: bb
+  - name: multiqc
+    repository: bb
+
+repositories:
+  - name: bb
+    type: vsh
+    repo: vsh/biobox
+    tag: v0.1.0
+
+runners:
+  - type: nextflow
+
+engines:
+  - type: native
