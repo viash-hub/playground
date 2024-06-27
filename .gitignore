@@ -1,0 +1,6 @@
+.nextflow.log*
+.nextflow/
+work
+target/
+scm.config
+test_data
