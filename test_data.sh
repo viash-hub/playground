@@ -24,6 +24,7 @@ providers {
 EOF
 
 nextflow run vsh/craftbox -hub vsh -r main -main-script target/nextflow/untar/main.nf \
+-profile docker \
 --input "$TEST_DATA_DIR/S288C_reference_genome_Current_Release.tgz" \
 --output "S288C_reference_genome_Current_Release" \
 --publish_dir "$TEST_DATA_DIR"
