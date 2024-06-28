@@ -44,8 +44,8 @@ if [ ! -d "$TEST_DATA_DIR/S288C_reference_genome_Current_Release" ]; then
   --publish_dir "$TEST_DATA_DIR"
 fi
 
-zcat "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/S288C_reference_sequence_R64-5-1_20240529.fsa.gz" > "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/S288C_reference_sequence_R64-5-1_20240529.fsa" 
-zcat "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/saccharomyces_cerevisiae_R64-5-1_20240529.gff.gz" > "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/saccharomyces_cerevisiae_R64-5-1_20240529.gff"
+gunzip -c "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/S288C_reference_sequence_R64-5-1_20240529.fsa.gz" > "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/S288C_reference_sequence_R64-5-1_20240529.fsa" 
+gunzip -c "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/saccharomyces_cerevisiae_R64-5-1_20240529.gff.gz" > "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/saccharomyces_cerevisiae_R64-5-1_20240529.gff"
 sed -i -e 's/^.*chromosome=\(.*\)\]$/>chr\1/' "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/S288C_reference_sequence_R64-5-1_20240529.fsa"
 
 if [ ! -d "$TEST_DATA_DIR/S288C_reference_genome_Current_Release_STAR" ]; then
