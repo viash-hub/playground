@@ -4,10 +4,9 @@ format: gfm
 ```{r setup, include=FALSE}
 project <- yaml::read_yaml("_viash.yaml")
 ```
-# 🌱📦 `r project$name`
+# 🛝📦 `r project$name`
 
 [![GitHub](https://img.shields.io/badge/GitHub-viash--hub%2F`r project$name`-blue)](`r project$links$repository`) 
-[![GitHub Issues](https://img.shields.io/github/issues/viash-hub/`r project$name`)](`r project$links$issue_tracker`) 
 [![Viash version](https://img.shields.io/badge/Viash-v`r gsub("-", "--", project$viash_version)`-blue)](https://viash.io)
 
 `r project$description`

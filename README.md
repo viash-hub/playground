@@ -1,10 +1,8 @@
 
 
-# 🌱📦 playground
+# 🛝📦 playground
 
 [![GitHub](https://img.shields.io/badge/GitHub-viash--hub%2Fplayground-blue.png)](https://github.com/viash-hub/playground)
-[![GitHub
-Issues](https://img.shields.io/github/issues/viash-hub/playground.png)](https://github.com/viash-hub/playground/issues)
 [![Viash
 version](https://img.shields.io/badge/Viash-v0.9.0--RC6-blue)](https://viash.io)
 
