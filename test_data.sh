@@ -15,6 +15,11 @@ if [ ! -f "$TEST_DATA_DIR/SRR1570800_1.fastq" ] || [ ! -f "$TEST_DATA_DIR/SRR157
   docker run -t --rm -v $PWD:/output:rw -w /output/test_data ncbi/sra-tools fasterq-dump -e 2 -p SRR1570800	
 fi
 
+head -n 10000 "$TEST_DATA_DIR/SRR1569895_1.fastq" > "$TEST_DATA_DIR/SRR1569895_1_subsample.fastq" 
+head -n 10000 "$TEST_DATA_DIR/SRR1569895_2.fastq" > "$TEST_DATA_DIR/SRR1569895_2_subsample.fastq"
+head -n 10000 "$TEST_DATA_DIR/SRR1570800_1.fastq" > "$TEST_DATA_DIR/SRR1570800_1_subsample.fastq" 
+head -n 10000 "$TEST_DATA_DIR/SRR1570800_2.fastq" > "$TEST_DATA_DIR/SRR1570800_2_subsample.fastq" 
+
 export NXF_SCM_FILE="$TEST_DATA_DIR/scm.config"
 
 cat > $NXF_SCM_FILE << EOF
@@ -59,11 +64,11 @@ PARAMS_FILE=params_file.yaml
 cat > $PARAMS_FILE << EOF
 param_list:
   - id: SRR1569895
-    input_r1: $TEST_DATA_DIR/SRR1569895_1.fastq
-    input_r2: $TEST_DATA_DIR/SRR1569895_2.fastq
+    input_r1: $TEST_DATA_DIR/SRR1569895_1_subsample.fastq
+    input_r2: $TEST_DATA_DIR/SRR1569895_2_subsample.fastq
   - id: SRR1570800
-    input_r1: $TEST_DATA_DIR/SRR1570800_1.fastq
-    input_r2: $TEST_DATA_DIR/SRR1570800_2.fastq
+    input_r1: $TEST_DATA_DIR/SRR1570800_1_subsample.fastq
+    input_r2: $TEST_DATA_DIR/SRR1570800_2_subsample.fastq
 publish_dir: foo
 reference: $TEST_DATA_DIR/S288C_reference_genome_Current_Release_STAR
 EOF
