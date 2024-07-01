@@ -17,14 +17,18 @@ workflow run_wf {
         },
         toState: [
           "output_falco": "outdir",
-        ]
+        ],
+        directives: [label: ["lowmem", "lowcpu"]]
       )
+      | niceView()
       | cutadapt.run(
         fromState: {id, state ->
           [
             "input": state.input_r1,
             "input_r2": state.input_r2,
-            "quality_cutoff": "20", // Could make this a parameter
+            "quality_cutoff": "30", // Could make this a parameter
+            "quality_cutoff_r2": "30", // Could make this a parameter
+            "minimum_length": "60:60", // Could make this a parameter
             "adapter": "CTGTCTCTTATACACATCT", // Could make this a parameter
             "adapter_r2": "CTGTCTCTTATACACATCT", // Could make this a parameter
             "output": "*.fastq",
@@ -34,29 +38,23 @@ workflow run_wf {
           def newKeys = [
             "trimmed_r1": output_state["output"][0],
             "trimmed_r2": output_state["output"][1],
-            "output_cutadapt": output_state["output"]
           ]
           def new_state = state + newKeys
           return new_state
-        }
-      )
-      | pear.run(
-        fromState: [
-          "forward_fastq": "trimmed_r1",
-          "reverse_fastq": "trimmed_r2",
-        ],
-        toState: [
-          "output_pear": "assembled",
-        ]
+        },
+        directives: [label: ["midmem", "midmem"]]
       )
       | star_align_reads.run(
         fromState: [
-          "input": "output_pear",
+          "input": "trimmed_r1",
+          "input_r2": "trimmed_r2",
           "genomeDir": "reference",
         ],
         toState: [
           "output_star": "aligned_reads",
-        ]
+        ],
+        directives: [label: ["highmem", "midcpu"]]
+
       )
       | samtools_stats.run(
         fromState: [
@@ -64,7 +62,9 @@ workflow run_wf {
         ],
         toState: [
           "output_samtools_stats": "output",
-        ]
+        ],
+        directives: [label: ["midmem", "lowcpu"]]
+
       )
       | toSortedList()
       | map { events ->
@@ -81,7 +81,9 @@ workflow run_wf {
         ],
         toState: [
           "multiqc_output": "output_report",
-        ]
+        ],
+        directives: [label: ["midmem", "lowcpu"]]
+
       )
       | setState(["multiqc_output", "_meta"])
 
