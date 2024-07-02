@@ -31,8 +31,6 @@ resources:
 dependencies:
   - name: cutadapt
     repository: bb
-  - name: pear
-    repository: bb
   - name: falco
     repository: bb
   - name: multiqc
