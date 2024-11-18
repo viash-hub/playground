@@ -10,6 +10,6 @@ nextflow run . \
   --gtf "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/genome.gtf" \
   --transcript_fasta "https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/sarscov2/genome/transcriptome.fasta" \
   --skip_bbsplit \
-  --skip_pseudo_alignment \
+  --skip_alignment \
   -profile docker \
   --publish_dir test_results \

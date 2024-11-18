@@ -4,23 +4,22 @@ workflow run_wf {
 
   main:
     output_ch = input_ch
-      
+
       | demultiplex.run(
         fromState: [
             "input": "input",
             "sample_sheet": "sample_sheet"
         ],
         toState: [
-            "output_demultiplexed": "output",
             // "output_falco": "output_falco",
-            // "output_multiqc": "output_multiqc"
+            // "output_multiqc": "output_multiqc",
+            "output_demultiplexed": "output"
         ],
       )
 
       | flatMap { id, state ->
         println "Processing sample sheet: $state.sample_sheet"
         def sample_sheet = file(state.sample_sheet)
-        def samples = ["Undetermined"]
         def original_id = id
         def lines = sample_sheet.readLines()
 
@@ -30,15 +29,12 @@ workflow run_wf {
             return
         }
         def data_lines = lines.drop(lines.indexOf('[Data]') + 2)
-        def sample_ids = data_lines.collect { line ->
+        def samples = data_lines.collect { line ->
             def columns = line.split(',')
             return columns.size() > 1 ? columns[1].trim() : null
         }.findAll { it != null }  // Remove nulls
 
-        samples += sample_ids
         println "Looking for fastq files in ${state.output_demultiplexed}."
-        def allfastqs = state.output_demultiplexed.listFiles().findAll{it.isFile() && it.name ==~ /^.+\.fastq.gz$/}
-        println "Found ${allfastqs.size()} fastq files, matching them to the following samples: ${samples}."
         processed_samples = samples.collect { sample_id ->
           def forward_regex = ~/^${sample_id}_S(\d+)_(L(\d+)_)?R1_(\d+)\.fastq\.gz$/
           def reverse_regex = ~/^${sample_id}_S(\d+)_(L(\d+)_)?R2_(\d+)\.fastq\.gz$/
@@ -174,7 +170,11 @@ workflow run_wf {
         ]
       )
 
-    // output_ch = demultiplex_ch
+      | map { id, state -> 
+        def mod_state = state.findAll { key, value -> value instanceof java.nio.file.Path && value.exists() }
+        [ id, mod_state ]
+      }
+
       | setState(["output_demultiplexed", "output_falco", "output_multiqc"])
 
   emit:
