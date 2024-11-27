@@ -70,6 +70,9 @@ argument_groups:
         type: string
         description: By default, the pipeline assigns reads based on the 'exon' attribute within the GTF file.
         default: exon 
+      - name: --star_sjdb_gtf_feature_exon
+        type: string
+        description: Feature type in GTF file to be used as exons for building transcripts
 
   - name: Read trimming options
     arguments:
@@ -167,6 +170,10 @@ argument_groups:
       - name: "--salmon_quant_libtype"
         type: string
         description: Override Salmon library type inferred based on strandedness defined in meta object.
+      - name: "--extra_salmon_quant_args"
+        type: string
+        default: '-v'
+        description: Extra arguments to pass to salmon quant command in addition to defaults defined by the pipeline.
       - name: "--min_mapped_reads"
         type: integer
         description: Minimum percentage of uniquely mapped reads below which samples are removed from further processing.
@@ -174,6 +181,10 @@ argument_groups:
       - name: "--stringtie_ignore_gtf"
         type: boolean_true
         description: Perform reference-guided de novo assembly of transcripts using StringTie, i.e. don't restrict to those in GTF file.
+      - name: "--extra_stringtie_args"
+        type: string
+        default: '-v'
+        description: Extra arguments to pass to stringtie command in addition to defaults defined by the pipeline.
       - name: "--save_unaligned"
         type: boolean_true
         description: Where possible, save unaligned reads from either STAR, HISAT2 or Salmon to the results directory.
@@ -229,30 +240,25 @@ argument_groups:
       - name: "--skip_deseq2_qc"
         type: boolean_true
         description: Skip DESeq2 PCA and heatmap plotting.
-      - name: skip_dupradar
+      - name: --skip_dupradar
         type: boolean_true
         description: Skip dupRadar.
-      - name: skip_rseqc
+      - name: --skip_qualimap
+        type: boolean_true
+        description: Skip Qualimap.
+      - name: --skip_rseqc
         type: boolean_true
         description: Skip RSeQC.
-      - name: skip_multiqc
+      - name: --skip_multiqc
         type: boolean_true
         description: Skip MultiQC.
 
   - name: Other process arguments
     arguments: 
-      - name: "--extra_fq_subsample_args"
-        type: string
-        default: ' --record-count 1000000 --seed 1'
-        description: Extra arguments to pass to fq subsample command in addition to defaults defined by the pipeline.
       - name: "--extra_picard_args"
         type: string   
         default: ' --ASSUME_SORTED true --REMOVE_DUPLICATES false --VALIDATION_STRINGENCY LENIENT --TMP_DIR tmp'
         description: Extra arguments to pass to picard MarkDuplicates command in addition to defaults defined by the pipeline.
-      - name: "--extra_bedtools_args"
-        type: string
-        default: ' -split -du'
-        description: Extra arguments to pass to bedtools genomecov command in addition to defaults defined by the pipeline.
       - name: "--extra_preseq_args"
         type: string
         description: Extra arguments to pass to preseq lc_extrap command in addition to defaults defined by the pipeline
@@ -264,12 +270,12 @@ argument_groups:
       - name: "--rseqc_modules"
         type: string
         multiple: true
-        multiple_sep: ","
-        description: Specify the RSeQC modules to run_wf
-        default: bam_stat,inner_distance,infer_experiment,junction_annotation,junction_saturation,read_distribution,read_duplication
+        multiple_sep: ";"
+        description: Specify the RSeQC modules to run_wf (comma-separated list)
+        default: bam_stat;inner_distance;infer_experiment;junction_annotation;junction_saturation;read_distribution;read_duplication
         choices: [ "bam_stat", "inner_distance", "infer_experiment", "junction_annotation", "junction_saturation", "read_distribution", "read_duplication", "tin" ]
 
-  - name: Multiqc paramenters
+  - name: MultiQC paramenters
     arguments:
       - name: "--multiqc_custom_config"
         type: file
@@ -349,14 +355,14 @@ argument_groups:
         required: false
         must_exist: false
         description: Path to output directory
-        default: fastq/$id.read_1.fastq
+        default: fastq/$id.read_1.fastq.gz
       - name: "--output_fastq_2"
         type: file
         direction: output
         required: false
         must_exist: false
         description: Path to output directory
-        default: fastq/$id.read_2.fastq
+        default: fastq/$id.read_2.fastq.gz
       
       # FastQC
       - name: "--fastqc_html_1"
@@ -841,6 +847,10 @@ argument_groups:
         type: file
         direction: output
         default: deseq2_qc
+      - name: "--deseq2_output_pseudo"
+        type: file
+        direction: output
+        default: deseq2_qc_pseudo
 
       # MultiQC
       - name: "--multiqc_report"
@@ -872,6 +882,10 @@ argument_groups:
         type: file
         direction: output
         default: pseudo_alignment_quantification/gene_counts_scaled.tsv
+      - name: "--pseudo_tpm_gene"
+        type: file
+        direction: output
+        default: pseudo_alignment_quantification/gene_tpm.tsv
       - name: "--pseudo_tpm_transcript"
         type: file
         direction: output
