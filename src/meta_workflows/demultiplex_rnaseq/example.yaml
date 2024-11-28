@@ -4,5 +4,6 @@ fasta: "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/858/895/GCA_009858895.3
 gtf: "http://ftp.ensemblgenomes.org/pub/viruses/gtf/sars_cov_2/Sars_cov_2.ASM985889v3.101.gtf.gz"
 skip_bbsplit: true
 skip_alignment: true
+skip_deseq2_qc: true
 min_trimmed_reads: 5000
 rseqc_modules: "bam_stat;infer_experiment;junction_saturation;read_distribution;read_duplication"

@@ -81,12 +81,6 @@ argument_groups:
         description: Specify the trimming tool to use.
         choices: ["trimgalore", "fastp"]
         default: "trimgalore"
-      - name: "--extra_trimgalore_args"
-        type: string
-        description: Extra arguments to pass to Trim Galore! command in addition to defaults defined by the pipeline.
-      - name: "--extra_fastp_args"
-        type: string
-        description: Extra arguments to pass to fastp command in addition to defaults defined by the pipeline.
       - name: "--min_trimmed_reads"
         type: integer
         description: Minimum number of trimmed reads below which samples are removed from further processing. Some downstream steps in the pipeline will fail if this threshold is too low.
@@ -170,10 +164,6 @@ argument_groups:
       - name: "--salmon_quant_libtype"
         type: string
         description: Override Salmon library type inferred based on strandedness defined in meta object.
-      - name: "--extra_salmon_quant_args"
-        type: string
-        default: '-v'
-        description: Extra arguments to pass to salmon quant command in addition to defaults defined by the pipeline.
       - name: "--min_mapped_reads"
         type: integer
         description: Minimum percentage of uniquely mapped reads below which samples are removed from further processing.
@@ -197,10 +187,6 @@ argument_groups:
       - name: "--skip_pseudo_alignment"
         type: boolean_true
         description: Skip all of the pseudo-alignment-based processes within the pipeline.  
-      - name: --extra_rsem_calculate_expression_args
-        type: string
-        description: Extra arguments to pass to rsem-calculate-expression command in addition to defaults defined by the pipeline.
-        default: '--star --star-output-genome-bam --star-gzipped-read-file --estimate-rspd --seed 1'
 
   - name: Process skipping options
     arguments:
