@@ -279,7 +279,7 @@ argument_groups:
         description: Directory to write demultiplexed output to
         type: file
         direction: output
-        required: true
+        required: false
         default: "$id/demultiplex"
       - name: --output_falco
         description: Directory to write Falco output to
