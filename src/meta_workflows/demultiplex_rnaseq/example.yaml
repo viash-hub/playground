@@ -7,3 +7,4 @@ skip_alignment: true
 skip_deseq2_qc: true
 min_trimmed_reads: 5000
 rseqc_modules: "bam_stat;infer_experiment;junction_saturation;read_distribution;read_duplication"
+multiqc_custom_config: "https://raw.githubusercontent.com/viash-hub/rnaseq/refs/heads/main/src/assets/multiqc_config.yml"
