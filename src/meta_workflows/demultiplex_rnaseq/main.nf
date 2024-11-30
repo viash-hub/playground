@@ -199,7 +199,7 @@ workflow run_wf {
 
       | map { id, state -> 
         def mod_state = state.findAll { key, value -> value instanceof java.nio.file.Path && value.exists() }
-        [ id, mod_state ]
+        [ id, mod_state + [ _meta: [join_id: "run"] ] ]
       }
 
       | setState(
@@ -304,7 +304,8 @@ workflow run_wf {
           "deseq2_output_pseudo": "deseq2_output_pseudo",  
           "multiqc_report": "multiqc_report", 
           "multiqc_data": "multiqc_data", 
-          "multiqc_plots": "multiqc_plots"
+          "multiqc_plots": "multiqc_plots",
+          "_meta": "_meta"
         ]
       )
 
