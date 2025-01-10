@@ -1,0 +1,10 @@
+input: "https://github.com/nf-core/test-datasets/raw/refs/heads/demultiplex/testdata/NovaSeq6000/200624_A00834_0183_BHMTFYDRXX.tar.gz"
+sample_sheet: "https://raw.githubusercontent.com/nf-core/test-datasets/refs/heads/demultiplex/testdata/NovaSeq6000/SampleSheet.csv"
+fasta: "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/858/895/GCA_009858895.3_ASM985889v3/GCA_009858895.3_ASM985889v3_genomic.fna.gz"
+gtf: "http://ftp.ensemblgenomes.org/pub/viruses/gtf/sars_cov_2/Sars_cov_2.ASM985889v3.101.gtf.gz"
+skip_bbsplit: true
+skip_alignment: true
+skip_deseq2_qc: true
+min_trimmed_reads: 5000
+rseqc_modules: "bam_stat;infer_experiment;junction_saturation;read_distribution;read_duplication"
+multiqc_custom_config: "https://raw.githubusercontent.com/viash-hub/rnaseq/refs/heads/main/src/assets/multiqc_config.yml"
