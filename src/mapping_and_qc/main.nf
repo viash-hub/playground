@@ -66,14 +66,17 @@ workflow run_wf {
         directives: [label: ["midmem", "lowcpu"]]
 
       )
-      | toSortedList()
-      | map { events ->
-        def new_id = "multiqc"
-        def join_id = events[0][0]
-        def bam_samtools_stats_dirs = events.collect{it[1].output_samtools_stats.getParent()}
-        def falco_dirs = events.collect{it[1].output_falco}
-        return [new_id, ["input": bam_samtools_stats_dirs + falco_dirs, "_meta": ["join_id": join_id]]]
+
+      | joinStates{ ids, states ->
+        def bam_samtools_stats_dirs = states.collect{it.output_samtools_stats.getParent()}
+        def falco_dirs = states.collect{it.output_falco}
+        def new_data = [
+          "input": bam_samtools_stats_dirs + falco_dirs,
+          "_meta": ["join_id": ids[0]]
+        ]
+        return ["multiqc", new_data]
       }
+
       | multiqc.run(
         fromState: [
           "input": "input",
