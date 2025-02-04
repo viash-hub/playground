@@ -51,12 +51,12 @@ sed -i -e 's/^.*chromosome=\(.*\)\]$/>chr\1/' "$TEST_DATA_DIR/S288C_reference_ge
 if [ ! -d "$TEST_DATA_DIR/S288C_reference_genome_Current_Release_STAR" ]; then
   nextflow run vsh/biobox -hub vsh -r main -main-script target/nextflow/star/star_genome_generate/main.nf \
   -profile docker \
-  --genomeFastaFiles "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/S288C_reference_sequence_R64-5-1_20240529.fsa" \
-  --sjdbGTFfile "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/saccharomyces_cerevisiae_R64-5-1_20240529.gff" \
-  --sjdbGTFtagExonParentTranscript Parent \
-  --sjdbOverhang 100 \
+  --genome_fasta_files "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/S288C_reference_sequence_R64-5-1_20240529.fsa" \
+  --sjdb_gtf_file "$TEST_DATA_DIR/S288C_reference_genome_Current_Release/saccharomyces_cerevisiae_R64-5-1_20240529.gff" \
+  --sjdb_gtf_tag_exon_parent_transcript Parent \
+  --sjdb_overhang 100 \
   --publish_dir "$TEST_DATA_DIR" \
-  --sjdbGTFfeatureExon noncoding_exon \
+  --sjdb_gtf_feature_exon noncoding_exon \
   --index S288C_reference_genome_Current_Release_STAR 
 fi
 
