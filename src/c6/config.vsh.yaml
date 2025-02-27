@@ -1,4 +1,4 @@
-name: samtools
+name: samtools_6
 
 arguments:
   - name: --input
