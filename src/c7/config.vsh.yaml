@@ -1,0 +1,38 @@
+name: samtools
+
+arguments:
+  - name: --input
+    type: file
+    description: |
+      Input file.
+    required: true
+    must_exist: true
+  - name: --output
+    alternatives: -o
+    type: file
+    description: |
+      Output file.
+    example: "out.txt"
+    required: true
+    direction: output
+
+resources:
+  - type: bash_script
+    path: script.sh
+
+test_resources:
+  - type: bash_script
+    path: test.sh
+  - type: file
+    path: test_data
+
+engines:
+  - type: docker
+    image: quay.io/biocontainers/samtools:1.19.2--h50ea8bc_1
+    setup:
+      - type: docker
+        run: |
+          samtools --version 2>&1 | grep -E '^(samtools|Using htslib)' | \
+          sed 's#Using ##;s# \([0-9\.]*\)$#: \1#' > /var/software_versions.txt
+runners:
+- type: nextflow
