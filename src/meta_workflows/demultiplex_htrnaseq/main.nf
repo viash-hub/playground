@@ -117,7 +117,6 @@ workflow run_wf {
         "_meta": "_meta"
       )
 
-
   emit:
     output_ch
 }
