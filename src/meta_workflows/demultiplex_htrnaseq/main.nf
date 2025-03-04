@@ -22,11 +22,6 @@ workflow run_wf {
           def sample_sheet = file(state.run_information)
           def lines = sample_sheet.readLines()
           
-          // Print some debug info
-          println "Sample sheet path: ${state.run_information}"
-          println "First 10 lines of sample sheet:"
-          lines.take(10).each { println "  > $it" }
-          
           data_section = lines.findIndexOf { it.trim() =~ /\[\s*.*[dD][aA][tT][aA].*\s*\]/ }
           
           // Extract samples from data lines
