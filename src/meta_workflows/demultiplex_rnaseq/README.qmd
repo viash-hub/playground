@@ -1,0 +1,18 @@
+---
+title: A meta workflow for demultiplexing and RNA sequencing analysis
+format: gfm
+---
+
+# Introduction
+
+To perform demultiplexing and analysis of RNAseq data, we will create a meta workflow that includes the demultiplex and rnaseq workflows from Viash Hub. 
+
+1. Start by creating a new workflow configuration with all the necessary inputs and outputs.
+2. Add the demultiplex and rnaseq workflows as dependencies in the configuration.
+3. Create the Nextflow script for the workflow.
+4. Add the demultiplex and rnaseq workflows as steps in the Nextflow workflow.
+5. Add any intermediate steps that are required to gather output fastq files from the demultiplex workflow and modify the state as required by the rnaseq workflow. 
+
+# Test data
+We will use the same test data from <https://github.com/nf-core/test-datasets/raw/refs/heads/demultiplex/testdata/NovaSeq6000>. The genome fasta was obtained from <https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/009/858/895/GCA_009858895.3_ASM985889v3/GCA_009858895.3_ASM985889v3_genomic.fna.gz> and the annotation file was obtained from <http://ftp.ensemblgenomes.org/pub/viruses/gtf/sars_cov_2/Sars_cov_2.ASM985889v3.101.gtf.gz>.
+The `example.yaml` parameter file can be used to test the meta-workflow.
