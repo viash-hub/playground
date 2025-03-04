@@ -1,0 +1,144 @@
+name: demultiplex_htrnaseq
+description: Demultiplexing of raw sequencing data and HTRNA sequencing analysis.
+
+argument_groups:
+  - name: Demultiplex Input arguments
+    arguments:
+      - name: --input
+        description: Directory containing raw sequencing data
+        type: file
+        required: true
+      - name: --run_information
+        description: |
+          CSV file containing sample information, which will be used as 
+          input for the demultiplexer. Canonically called 'SampleSheet.csv' (Illumina)
+          or 'RunManifest.csv' (Element Biosciences). If not specified,
+          will try to autodetect the sample sheet in the input directory.
+          Requires --demultiplexer to be set.
+        type: file
+        required: false
+      - name: "--demultiplexer"
+        type: string
+        required: false
+        choices: ["bases2fastq", "bclconvert"]
+        description: |
+          Demultiplexer to use, choice depends on the provider
+          of the instrument that was used to generate the data.
+          When not using --sample_sheet, specifying this argument is not
+          required.
+
+  - name: Dempultiplex Output arguments
+    arguments:
+      - name: --output_demultiplexed
+        description: Directory to write fastq data to
+        type: file
+        direction: output
+        required: false
+        default: "$id/fastq"
+      - name: "--output_falco"
+        description: Directory to write falco output to
+        type: file
+        direction: output
+        required: false
+        default: "$id/qc/fastqc"
+      - name: "--output_multiqc"
+        description: Directory to write multiqc output to
+        type: file
+        direction: output
+        required: false
+        default: "$id/qc/multiqc_report.html"
+  
+  - name: Htrnaseq Input arguments
+    arguments:
+      - name: --barcodesFasta
+        type: file
+        required: true
+      - name: "--umi_length"
+        description: |
+          Length of the UMI sequences
+        type: integer
+        min: 1
+        default: 10
+      - name: --genomeDir
+        type: file
+        required: true
+      - name: --annotation
+        type: file
+        required: true
+  - name: Htrnaseq Output arguments
+    arguments:
+      - name: --fastq_output_r1
+        description: List of demultiplexed fastq files
+        type: file
+        direction: output
+        multiple: true
+        # required: true
+        default: "fastq/*_R1_001.fastq"
+      - name: --fastq_output_r2
+        description: List of demultiplexed fastq files
+        type: file
+        direction: output
+        multiple: true
+        # required: true
+        default: "fastq/*_R2_001.fastq"
+      - name: --star_output
+        description: Output from mapping with STAR
+        type: file
+        direction: output
+        multiple: true
+        # required: true
+        default: star.$id/*
+      - name: "--nrReadsNrGenesPerChrom"
+        type: file
+        direction: output
+        # required: true
+        default: "nrReadsNrGenesPerChrom.$id.txt"
+      - name: "--star_qc_metrics"
+        type: file
+        direction: output
+        # required: true
+        default: "starLogs.$id.txt"
+      - name: "--eset"
+        type: file
+        direction: output
+        # required: true
+        default: eset.$id.rds
+      - name: "--f_data"
+        type: file
+        direction: output
+        # required: true
+        default: fData.$id.tsv
+      - name: "--p_data"
+        type: file
+        direction: output
+        # required: true
+        default: pData.$id.tsv
+      - name: "--html_report"
+        type: file
+        direction: output
+        # required: true
+        default: report.$id.html
+
+resources:
+  - type: nextflow_script
+    path: main.nf
+    entrypoint: run_wf
+
+dependencies:
+  - name: demultiplex
+    repository: demultiplex
+  - name: workflows/htrnaseq
+    repository: htrnaseq
+
+repositories:
+  - name: demultiplex
+    type: vsh
+    repo: demultiplex
+    tag: v0.3.4
+  - name: htrnaseq
+    type: vsh
+    repo: htrnaseq
+    tag: main
+
+runners:
+  - type: nextflow

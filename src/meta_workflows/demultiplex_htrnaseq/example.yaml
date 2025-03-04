@@ -1,0 +1,6 @@
+input: gs://viash-hub-test-data/demultiplex/v3/demultiplex_htrnaseq_meta/SingleCell-RNA_P3_2
+run_information: gs://viash-hub-test-data/demultiplex/v3/demultiplex_htrnaseq_meta/SingleCell-RNA_P3_2/SampleSheet.csv
+demultiplexer: bclconvert
+barcodesFasta: gs://viash-hub-test-data/demultiplex/v3/demultiplex_htrnaseq_meta/barcodes.fasta
+genomeDir: gs://viash-hub-test-data/demultiplex/v3/demultiplex_htrnaseq_meta/gencode.v41.star.sparse
+annotation: gs://viash-hub-test-data/demultiplex/v3/demultiplex_htrnaseq_meta/gencode.v41.annotation.gtf.gz
