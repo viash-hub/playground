@@ -1,4 +1,4 @@
-  // Helper function to create identity mappings for state
+// Helper function to create identity mappings for state
   def createIdentityMap(keys) {
       return keys.collectEntries { [(it): it] }
   }
@@ -119,7 +119,9 @@ workflow run_wf {
                 def mod_state = state.findAll { key, value -> 
                     value instanceof java.nio.file.Path && value.exists() 
                 }
-                [ id, mod_state + [ _meta: [join_id: "run"] ] ]
+                // Get the original join_id from the _meta if it exists, otherwise use current id
+                def join_id = state._meta?.join_id ?: id
+                [ id, mod_state + [ _meta: [join_id: join_id] ] ]
             }
 
             | setState(createIdentityMap(rnaseqOutputKeys + ["_meta"]))
