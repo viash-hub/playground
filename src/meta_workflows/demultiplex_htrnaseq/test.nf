@@ -5,7 +5,7 @@ include { demultiplex_htrnaseq } from targetDir + "/nextflow/demultiplex_htrnase
 include { check_eset } from targetDir + "/dependencies/vsh/vsh/htrnaseq/main/nextflow/integration_test_components/htrnaseq/check_eset/main.nf"
 
 
-params.resources_test =  "gs://viash-hub-resources/demultiplex/v3/demultiplex_htrnaseq_meta/"
+params.resources_test = "gs://viash-hub-resources/demultiplex/v3/demultiplex_htrnaseq_meta/"
 
 workflow test_wf {
   resources_test_file = file(params.resources_test)
