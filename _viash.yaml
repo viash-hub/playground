@@ -9,5 +9,12 @@ links:
 
 viash_version: 0.9.0
 
+info:
+  test_resources:
+    - path: gs://viash-hub-resources/rnaseq/demultiplex_rnaseq_meta/
+      dest: resources_test
+
 config_mods: |
   .requirements.commands := ['ps']
+  .resources += {path: '/src/config/labels.config', dest: 'nextflow_labels.config'}
+  .runners[.type == 'nextflow'].config.script := 'includeConfig("nextflow_labels.config")'
