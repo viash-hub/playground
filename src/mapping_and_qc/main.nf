@@ -48,7 +48,7 @@ workflow run_wf {
         fromState: [
           "input": "trimmed_r1",
           "input_r2": "trimmed_r2",
-          "genomeDir": "reference",
+          "genome_dir": "reference",
         ],
         toState: [
           "output_star": "aligned_reads",

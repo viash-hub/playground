@@ -1,5 +1,6 @@
 name: mapping_and_qc
 description: Run STAR and QC
+
 argument_groups:
   - name: Input arguments
     arguments:
@@ -27,7 +28,6 @@ resources:
     path: main.nf
     entrypoint: run_wf
 
-
 dependencies:
   - name: cutadapt
     repository: bb
@@ -45,6 +45,7 @@ repositories:
     type: vsh
     repo: vsh/biobox
     tag: main
+
 runners:
   - type: nextflow
 
