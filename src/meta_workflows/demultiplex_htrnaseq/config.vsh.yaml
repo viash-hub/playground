@@ -72,51 +72,42 @@ argument_groups:
         type: file
         direction: output
         multiple: true
-        # required: true
         default: "fastq/*_R1_001.fastq"
       - name: --fastq_output_r2
         description: List of demultiplexed fastq files
         type: file
         direction: output
         multiple: true
-        # required: true
         default: "fastq/*_R2_001.fastq"
       - name: --star_output
         description: Output from mapping with STAR
         type: file
         direction: output
         multiple: true
-        # required: true
         default: star.$id/*
       - name: "--nrReadsNrGenesPerChrom"
         type: file
         direction: output
-        # required: true
         default: "nrReadsNrGenesPerChrom.$id.txt"
       - name: "--star_qc_metrics"
         type: file
         direction: output
-        # required: true
         default: "starLogs.$id.txt"
       - name: "--eset"
         type: file
         direction: output
-        # required: true
         default: eset.$id.rds
       - name: "--f_data"
         type: file
         direction: output
-        # required: true
         default: fData.$id.tsv
       - name: "--p_data"
         type: file
         direction: output
-        # required: true
         default: pData.$id.tsv
       - name: "--html_report"
         type: file
         direction: output
-        # required: true
         default: report.$id.html
 
 resources:
@@ -141,11 +132,11 @@ repositories:
   - name: demultiplex
     type: vsh
     repo: demultiplex
-    tag: v0.3.4
+    tag: v0.4.0
   - name: htrnaseq
     type: vsh
     repo: htrnaseq
-    tag: main
+    tag: v0.8.1
 
 runners:
   - type: nextflow
