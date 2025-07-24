@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export NXF_VER=24.04.6 # to be removed when htrnaseq is updated to use latest dependencies
+
 viash ns build --setup cb --parallel -q demultiplex_htrnaseq
 
 nextflow run . \

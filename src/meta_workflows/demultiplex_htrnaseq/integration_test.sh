@@ -13,6 +13,8 @@ viash ns build --setup cb --parallel
 
 set -eo pipefail
 
+export NXF_VER=24.04.6 # to be removed when htrnaseq is updated to use latest dependencies
+
 nextflow \
   run . \
   -main-script src/meta_workflows/demultiplex_htrnaseq/test.nf \
